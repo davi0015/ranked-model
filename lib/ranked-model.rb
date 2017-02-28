@@ -53,8 +53,11 @@ module RankedModel
           instance_variable_set "@#{ranker.name}_position", position
         end
       end
+      define_method "#{ranker.name}_current_position" do
+        ranker.with(self).current_position
+      end
 
-      public "#{ranker.name}_position", "#{ranker.name}_position="
+      public "#{ranker.name}_position", "#{ranker.name}_position=", "#{ranker.name}_current_position"
     end
 
   end

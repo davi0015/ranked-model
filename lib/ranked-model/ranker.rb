@@ -69,6 +69,10 @@ module RankedModel
           update_all([%Q{#{ranker.column} = ?}, value])
       end
 
+      def current_position
+        finder.where(instance_class.arel_table[ranker.column].lt(rank)).count
+      end
+
       def position
         instance.send "#{ranker.name}_position"
       end
