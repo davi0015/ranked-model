@@ -70,7 +70,7 @@ module RankedModel
       end
 
       def current_position
-        finder.where(instance_class.arel_table[ranker.column].lt(rank)).count
+        finder.where(instance_class.arel_table[ranker.column].lt(rank)).size
       end
 
       def position
