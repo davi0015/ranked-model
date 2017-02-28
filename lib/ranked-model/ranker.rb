@@ -4,7 +4,7 @@ module RankedModel
   class InvalidField < StandardError; end
 
   class Ranker
-    attr_accessor :name, :column, :scope, :with_same, :class_name, :unless
+    attr_accessor :name, :column, :scope, :with_same, :finder, :class_name, :unless
 
     def initialize name, options={}
       self.name = name.to_sym
@@ -216,7 +216,12 @@ module RankedModel
 
       def finder(order = :asc)
         @finder ||= begin
-          _finder = instance_class
+          case ranker.finder
+            when Proc
+              _finder = ranker.finder.call(instance)
+            else
+              _finder = instance_class
+          end
           columns = [instance_class.arel_table[instance_class.primary_key], instance_class.arel_table[ranker.column]]
           if ranker.scope
             _finder = _finder.send ranker.scope
