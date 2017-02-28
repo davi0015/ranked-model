@@ -11,7 +11,7 @@ module RankedModel
       self.column = options[:column] || name
       self.class_name = options[:class_name]
 
-      [ :scope, :with_same, :unless ].each do |key|
+      [ :scope, :with_same, :finder, :unless ].each do |key|
         self.send "#{key}=", options[key]
       end
     end
